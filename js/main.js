@@ -50,7 +50,7 @@ require([
         'utilities'
     ],
 
-	function($, _, Marionette, Handlebars, widget, util) {
+    function($, _, Marionette, Handlebars, widget, util) {
         'use strict';
 
         // change the templating mechanism:
@@ -64,5 +64,5 @@ require([
             widgetElOne = new weather.ForecastWidget();
 
         $('#weather-widget').append(widgetElOne);
-	}
+    }
 );
