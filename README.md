@@ -1,0 +1,4 @@
+weather
+=======
+
+Simple weather widget
