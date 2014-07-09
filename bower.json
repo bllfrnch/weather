@@ -1,0 +1,19 @@
+{
+  "name": "weather",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bllfrnch/weather",
+  "description": "A simple weather widget",
+  "main": "index.html",
+  "authors": [
+    "Bill French"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
