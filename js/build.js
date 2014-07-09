@@ -1,6 +1,5 @@
-require.config({
-    baseUrl: 'js',
-    
+({
+    baseUrl: './',
     paths: {
         backbone: 'bower_components/backbone/backbone',
         underscore: 'bower_components/underscore/underscore',
@@ -35,33 +34,12 @@ require.config({
         },
     },
 
-    hbs: {
-        i18n: false,
-        templateExtension: 'hbs'
-    }
-});
+    name: 'main',
 
-require([
-        'jquery',
-        'underscore',
-        'marionette',
-        'handlebars',
-        'widget',
-        'utilities'
-    ],
+    // hbs: {
+    //     i18n: false,
+    //     templateExtension: 'hbs'
+    // },
 
-    function($, _, Marionette, Handlebars, widget, util) {
-        'use strict';
-
-        // change the templating mechanism:
-        Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate) {
-            return Handlebars.compile(rawTemplate);
-        };
-
-        var weather = util.namespace('org.billf.weather'),
-            // default is 5
-            widgetElOne = new weather.ForecastWidget();
-
-        $('#weather-widget').append(widgetElOne);
-    }
-);
+    out: 'built.js'
+})  
