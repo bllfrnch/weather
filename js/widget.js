@@ -10,7 +10,7 @@ define([
 	function($, _, Backbone, Marionette, dayTmpl, util) {
         'use strict';
 
-        var widget = util.namespace('org.billf.weather'),
+        var weather = util.namespace('org.billf.weather'),
         	views = util.namespace('org.billf.weather.views'),
         	entities = util.namespace('org.billf.weather.entities');
 
@@ -21,10 +21,23 @@ define([
 		entities.Forecast = Backbone.Collection.extend({
 			url: 'http://api.wunderground.com/api/5a04155edeffd64c/forecast10day/q/NY/New_York.json?callback=?',
 			model: entities.Day,
+			
 			initialize: function(models, options) {
-				_.extend(this, _.pick(options, 'days'));
+				var days = _.pick(options, 'days');
+				
+				// check if options.days is acceptable
+				if (options.days < 1 || options.days > 10 || 
+					!_.isNumber(options.days)) {
+					days = { days: 5 }
+				}
+
+				_.extend(this, days);
+				
+				this.promise = this.fetch();
 			},
+			
 			parse: function(response, options) {
+				// return the number of days specified in this.days
 				return response.forecast.simpleforecast.forecastday.slice(0, this.days);
 			}
 		});		
@@ -38,14 +51,34 @@ define([
 		views.ForecastView = Marionette.CollectionView.extend({
 			tagName: 'ul',
 			className: 'widget forecast',
-			childView: views.DayView
+			childView: views.DayView,
+			
+			initialize: function(options) {
+				this.collection = options.collection;
+				this.setCallbacks();
+			},
+
+			// set render to happen once model's fetch promise is fulfilled
+			setCallbacks: function() {
+				var promise = this.collection.promise;
+				promise.done(_.bind(function() {
+					this.render();
+				}, this));
+			}
 		});
 
-		// TODO: write a wrapper ForecastWidget that returns ForecastView's $el
-		// once it's rendered based on a promise.
+		weather.ForecastWidget = function(days) {
+			var forecast = new weather.entities.Forecast([], { 
+					days: days
+				}),
+            	forecastView = new weather.views.ForecastView({ 
+            		collection: forecast 
+            	}),
+            	widgetEl = forecastView.$el;
 
-		widget.ForecastView = views.ForecastView;
+            return widgetEl;
+		}
 
-        return widget;
+        return weather;
 	}
 );

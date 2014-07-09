@@ -8,10 +8,12 @@ body {
 }
 
 #weather-widget {
+	display: block;
+	clear: both;
 	
 	.widget {
 		// position: absolute;
-		color: white;
+		color: #e9e3e3;
 		font-family: sans-serif;
 		font-weight: bold;
 		background: rgb(70,70,70); /* Old browsers */

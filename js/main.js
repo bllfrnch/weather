@@ -59,26 +59,10 @@ require([
         };
 
         // create a namespace for object instances
-        var instances = util.namespace('org.billf.instances'),
-            // you can specify a number of days between 1 and 10.
-            forecast = instances.forecast = new widget.entities.Forecast([], {days: 5}),
-            forecastView,
-            widgetEl,
-            successCallback = function() {
-                forecastView = instances.forecastView = new widget.ForecastView({
-                    collection: forecast
-                });
-                forecastView.render();
-                widgetEl = forecastView.$el;
-                $('#weather-widget').append(widgetEl);
-            },
-            errorCallback = function(error) {
-                throw new Error('Error occurred: ', error);
-            };
+        var weather = util.namespace('org.billf.weather'),
+            // default is 5
+            widgetElOne = new weather.ForecastWidget();
 
-        forecast.fetch({
-            success: successCallback,
-            error: errorCallback
-        });
+        $('#weather-widget').append(widgetElOne);
 	}
 );
